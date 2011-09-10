@@ -1,16 +1,16 @@
 // make div a tv
 var TV_CONFIG = [
   {
-    width: '640',
-    height: '480'
+    vbounds:[320,180],
+    poi:[0,0,320,180] //
   },
   {
-    width: '430',
-    height: '330'
+    vbounds:[430,330],
+    poi:[6,213,590,430] // 
   },
   {
-    width: '215',
-    height: '165'
+    vbounds:[215,165],
+    poi:[2,107,295,215]
   }
 ];
 
@@ -35,8 +35,8 @@ $.fn.TVSet = function() {
       $('<div class="player" id="' + player_id + '"></div>').appendTo(this);
       
       var player = new YT.Player(player_id, {
-        width: TV_CONFIG[this.tv_type].width,
-        height: TV_CONFIG[this.tv_type].height,
+        width: TV_CONFIG[this.tv_type].vbounds[0],
+        height: TV_CONFIG[this.tv_type].vbounds[1],
         videoId: video_id,     
         playerVars:{
           enablejsapi:1,
@@ -52,6 +52,8 @@ $.fn.TVSet = function() {
         }
       });
       
+      this.data('vbounds',TV_CONFIG[this.tv_type].vbounds);
+      this.data('poi',TV_CONFIG[this.tv_type].poi)
       this.data('player',player);
       
       return this;
@@ -89,13 +91,15 @@ $.fn.TVSet = function() {
     
     handleMouseMove:function(mouseX, mouseY){
       var s,t,distanceX, distanceY;
-      var left = parseInt(this.css('left').replace('px',''));
-      var top = parseInt(this.css('top').replace('px',''));
+      var left = parseInt(this.css('left').replace('px','')) + this.data('poi')[0];
+      var top = parseInt(this.css('top').replace('px','')) + this.data('poi')[1];
+      var width = this.data('poi')[2];
+      var height = this.data('poi')[3];
       
-      distanceX = Math.abs(left + this.width()/2 - mouseX);
-      s = mapRange(distanceX, (this.width() * 0.25), (this.width() * 1.5), 10, 0);
-      distanceY = Math.abs(top + this.height()/2 - mouseY);
-      t = mapRange(distanceX, (this.height() * 0.25), (this.height() * 1.5), 10, 0);
+      distanceX = Math.abs(left + width/2 - mouseX);
+      s = mapRange(distanceX, (width * 0.25), (width * 1.5), 10, 0);
+      distanceY = Math.abs(top + height/2 - mouseY);
+      t = mapRange(distanceY, (height * 0.25), (height * 1.5), 10, 0);
       
       this.getPlayer().setVolume(s*t);
     }
