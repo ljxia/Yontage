@@ -3,7 +3,8 @@
   padding:0;
 /*  -webkit-transform:rotate(0deg);*/
 /*  margin-left:200px;*/
-  position:absolute;
+  position:static;
+  float:left;
   overflow:hidden;
 }
 
@@ -27,8 +28,8 @@
   z-index:100;
 }
 
-.tv.tv1{width:600px;height:665px;}
-.tv.tv2{width:300px;height:333px;}
+.tv.tv1{width:600px;height:665px;margin-top:-213px;}
+.tv.tv2{width:300px;height:333px;margin-top:-106px;}
 
 .tv1 .chrome{background:url(/images/old_tv_01.png) no-repeat;}
 .tv2 .chrome{background:url(/images/old_tv_02.png) no-repeat;}

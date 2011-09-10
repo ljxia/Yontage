@@ -25,10 +25,11 @@ $.fn.TVSet = function() {
   
   return $.extend(this,{
     tv_id:0,
-    tv_type: 2,
     done: false,
         
     init:function(video_id){
+      this.tv_type = Math.floor(Math.random()* (TV_CONFIG.length - 1) + 1),
+      
       player_id = "pl-" + this.tv_id;
       this.addClass("tv tv" + this.tv_type);
       $('<div class="chrome"></div>').appendTo(this);
@@ -42,7 +43,7 @@ $.fn.TVSet = function() {
           enablejsapi:1,
           controls: 0,
           html5:1,
-          autoplay:0,
+          autoplay:1,
           loop:1
         },
         events: {
@@ -91,17 +92,18 @@ $.fn.TVSet = function() {
     
     handleMouseMove:function(mouseX, mouseY){
       var s,t,distanceX, distanceY;
-      var left = parseInt(this.css('left').replace('px','')) + this.data('poi')[0];
-      var top = parseInt(this.css('top').replace('px','')) + this.data('poi')[1];
+            
+      var left = this[0].offsetLeft + this.data('poi')[0];
+      var top = this[0].offsetTop + this.data('poi')[1];
       var width = this.data('poi')[2];
       var height = this.data('poi')[3];
       
       distanceX = Math.abs(left + width/2 - mouseX);
-      s = mapRange(distanceX, (width * 0.25), (width * 1.5), 10, 0);
+      s = mapRange(distanceX, (width * 0.25), (width * 1.2), 10, 0);
       distanceY = Math.abs(top + height/2 - mouseY);
-      t = mapRange(distanceY, (height * 0.25), (height * 1.5), 10, 0);
+      t = mapRange(distanceY, (height * 0.25), (height * 1.2), 10, 0);
       
-      this.getPlayer().setVolume(s*t);
+      this.getPlayer().setVolume(s*t);//s*t
     }
     
   });
