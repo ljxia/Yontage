@@ -5,10 +5,10 @@
     <link rel="stylesheet" href="/stylesheets/style.css" type="text/css" media="screen" title="master" charset="utf-8" />
   </head>
   <body>
-    
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
     <script src="/scripts/app.js" type="text/javascript" charset="utf-8"></script>
     <script src="/scripts/tv.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="/_ah/channel/jsapi"></script>
     <script>
       var players = [];
       
@@ -24,34 +24,55 @@
       }
       
       function debug(){
-        for(i in players){
-          console.log(players[i].offsetLeft + "," + players[i].offsetTop, players[i].clientWidth,players[i].clientHeight);
-        }
+        // for(i in players){
+        //   console.log(players[i].offsetLeft + "," + players[i].offsetTop, players[i].clientWidth,players[i].clientHeight);
+        // }
+        
+        $.get('/q/' + token + '/' + "nyan+cat",function(data){
+          // console.log("after ajax");
+          // console.log(data);
+        });
       }
 
       function onYouTubePlayerAPIReady() {
-        
         videos = ['CGbfKZrUsK0', 'pDCLjNsWpHY', '74HlsUaYOpw','bHQqvYy5KYo', 'uAusmM0fhkc']; ////,'q7n9GCDh8A8'
         
-        for (var j = 0;j < 2;j++)
+        //for (var j = 0;j < 2;j++)
         for (i in videos)
         {
           var p = addVideo(videos[i]);
-          //console.log(p);   
           players.push(p[0]);       
-          //p.css({"left":(i * 330) + "px", "top":(i * 0) + "px"});
         }
         
       }
 
+      var token = '{{token}}';
+      var channel, socket;
+      var onChannelOpened, onChannelMessage, onChannelError, onChannelClose;
+      
+      onChannelOpened = function(){
+        console.log("Channel opened");
+        console.log(channel);
+      }
+      
+      onChannelMessage = function(message){
+        console.log("Channel Message Received");
+        console.log(JSON.parse(message.data));
+      }
       
       $(document).ready(function(){
         $("body").mousemove(function(event) {
-          var msg = "Handler for .mousemove() called at ";
-          msg += event.pageX + ", " + event.pageY;
-          //console.log(msg);
           for(i in players){$(players[i]).TVSet().handleMouseMove(event.pageX, event.pageY);}
         });
+        
+        
+        channel = new goog.appengine.Channel('{{channel_token}}');
+        socket = channel.open();
+        socket.onopen = onChannelOpened;
+        socket.onmessage = onChannelMessage;
+        socket.onerror = onChannelError;
+        socket.onclose = onChannelClose;
+        
       });
     </script>
   </body>

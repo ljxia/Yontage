@@ -17,17 +17,44 @@
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util        
 from google.appengine.ext.webapp import RequestHandler,template 
+from google.appengine.api import channel
+import uuid
+import simplejson
 
 
 class MainHandler(webapp.RequestHandler):
     def get(self):
-        self.response.headers['Content-Type'] = 'text/html'
-        self.response.out.write(template.render('templates/index.html',
-                                {}))
+      
+      token = str(uuid.uuid4())
+      channel_token = channel.create_channel(token)
+      
+      self.response.headers['Content-Type'] = 'text/html'
+      self.response.out.write(template.render('templates/index.html',
+                                {
+                                  'channel_token': channel_token,
+                                  'token': token
+                                }))
 
+class QueryHandler(webapp.RequestHandler):
+    def get(self,channel_token,query):
+      
+      
+      if channel_token and query:        
+        message = simplejson.dumps({
+          'query':query
+        })
+        
+        
+        channel.send_message(channel_token,message)
+      
+      self.response.out.write("%s - %s" % (channel_token, message))
+      pass
 
 def main():
-    application = webapp.WSGIApplication([('/', MainHandler)],
+    application = webapp.WSGIApplication([
+                                          ('/', MainHandler),
+                                          ('/q/([^/]+)?/([^/]+)?', QueryHandler)
+                                         ],
                                          debug=True)
     util.run_wsgi_app(application)
 

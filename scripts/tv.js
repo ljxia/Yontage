@@ -43,7 +43,7 @@ $.fn.TVSet = function() {
           enablejsapi:1,
           controls: 0,
           html5:1,
-          autoplay:1,
+          autoplay:0,
           loop:1,
           origin:window.location.host
         },
