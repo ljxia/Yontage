@@ -34,6 +34,20 @@
         });
       }
 
+      function findVideos(query){
+        var url = "https://gdata.youtube.com/feeds/api/videos";
+        $.get(url,{
+          'q':query,
+          'orderby':'published',
+          'alt':'json',
+          'format':5,
+          'paid-content':false,
+          'v':2
+        },function(data){
+          console.log(data);
+        })
+      }
+
       function onYouTubePlayerAPIReady() {
         videos = ['CGbfKZrUsK0', 'pDCLjNsWpHY', '74HlsUaYOpw','bHQqvYy5KYo', 'uAusmM0fhkc']; ////,'q7n9GCDh8A8'
         
