@@ -44,7 +44,8 @@ $.fn.TVSet = function() {
           controls: 0,
           html5:1,
           autoplay:1,
-          loop:1
+          loop:1,
+          origin:window.location.host
         },
         events: {
           'onReady': this.onPlayerReady,
