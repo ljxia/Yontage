@@ -24,7 +24,6 @@ $.fn.TVSet = function() {
   }
   
   return $.extend(this,{
-    tv_id:0,
     done: false,
         
     init:function(video_id){
@@ -43,7 +42,7 @@ $.fn.TVSet = function() {
           enablejsapi:1,
           controls: 0,
           html5:1,
-          autoplay:0,
+          autoplay:1,
           loop:1,
           origin:window.location.host
         },
@@ -76,6 +75,7 @@ $.fn.TVSet = function() {
     },
     
     onPlayerError:function(event){
+      console.log("Player error (switch to next video)");
       console.log(event);
     },
     

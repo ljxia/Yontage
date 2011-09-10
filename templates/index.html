@@ -5,6 +5,11 @@
     <link rel="stylesheet" href="/stylesheets/style.css" type="text/css" media="screen" title="master" charset="utf-8" />
   </head>
   <body>
+    <div id="tvs"></div>
+    <div id="controls">
+      
+    </div>
+    
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
     <script src="/scripts/app.js" type="text/javascript" charset="utf-8"></script>
     <script src="/scripts/tv.js" type="text/javascript" charset="utf-8"></script>
@@ -13,7 +18,7 @@
       var players = [];
       
       function addVideo(video_id){
-        return $('<div></div>').prependTo('body').TVSet().init(video_id);
+        return $('<div></div>').prependTo('#tvs').TVSet().init(video_id);
       }
       
       function playAll(){
@@ -24,10 +29,6 @@
       }
       
       function debug(){
-        // for(i in players){
-        //   console.log(players[i].offsetLeft + "," + players[i].offsetTop, players[i].clientWidth,players[i].clientHeight);
-        // }
-        
         $.get('/q/' + token + '/' + "nyan+cat",function(data){
           // console.log("after ajax");
           // console.log(data);
@@ -39,17 +40,24 @@
         $.get(url,{
           'q':query,
           'orderby':'published',
+          'max-results':10,
           'alt':'json',
           'format':5,
           'paid-content':false,
           'v':2
         },function(data){
-          console.log(data);
+          if (data.feed.entry)
+            for (var i=0; i < data.feed.entry.length; i++) {
+              var o = data.feed.entry[i];
+              var videoid = o["media$group"]["yt$videoid"]["$t"];
+              console.log(videoid);
+              players.push(addVideo(videoid)[0]);
+            };
         })
       }
 
       function onYouTubePlayerAPIReady() {
-        videos = ['CGbfKZrUsK0', 'pDCLjNsWpHY', '74HlsUaYOpw','bHQqvYy5KYo', 'uAusmM0fhkc']; ////,'q7n9GCDh8A8'
+        videos = [];//['CGbfKZrUsK0', 'pDCLjNsWpHY', '74HlsUaYOpw','bHQqvYy5KYo', 'uAusmM0fhkc']; ////,'q7n9GCDh8A8'
         
         //for (var j = 0;j < 2;j++)
         for (i in videos)
