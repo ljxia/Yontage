@@ -7,7 +7,9 @@
   <body>
     <div id="tvs"></div>
     <div id="controls">
-      
+      <span class="query-box">
+        <input type="text" id="video-search" />
+      </span>
     </div>
     
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
@@ -16,6 +18,7 @@
     <script type="text/javascript" src="/_ah/channel/jsapi"></script>
     <script>
       var players = [];
+      var videos = [];
       
       function addVideo(video_id){
         return $('<div></div>').prependTo('#tvs').TVSet().init(video_id);
@@ -55,9 +58,17 @@
             };
         })
       }
+      
+      function onLayout(){
+        $('span.query-box').css({
+          'position':'absolute',
+          'left': (window.innerWidth - $('span.query-box').width())/2 + "px",
+          'top': (window.innerHeight - $('span.query-box').height())/2 + "px"
+        });
+      }
 
       function onYouTubePlayerAPIReady() {
-        videos = [];//['CGbfKZrUsK0', 'pDCLjNsWpHY', '74HlsUaYOpw','bHQqvYy5KYo', 'uAusmM0fhkc']; ////,'q7n9GCDh8A8'
+        //['CGbfKZrUsK0', 'pDCLjNsWpHY', '74HlsUaYOpw','bHQqvYy5KYo', 'uAusmM0fhkc']; ////,'q7n9GCDh8A8'
         
         //for (var j = 0;j < 2;j++)
         for (i in videos)
@@ -86,6 +97,18 @@
         $("body").mousemove(function(event) {
           for(i in players){$(players[i]).TVSet().handleMouseMove(event.pageX, event.pageY);}
         });
+        
+        
+        $(window).bind('resize',onLayout);
+        
+        $('#video-search').bind('keypress',function(event){
+          if ( event.which == 13 ) {
+            $(this).hide();
+            findVideos($('#video-search').val());
+           }
+        });
+        
+        onLayout();
         
         
         channel = new goog.appengine.Channel('{{channel_token}}');
