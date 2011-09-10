@@ -10,17 +10,48 @@
     <script src="/scripts/app.js" type="text/javascript" charset="utf-8"></script>
     <script src="/scripts/tv.js" type="text/javascript" charset="utf-8"></script>
     <script>
+      var players = [];
+      
       function addVideo(video_id){
         return $('<div></div>').prependTo('body').TVSet().init(video_id);
       }
+      
+      function playAll(){
+        for(i in players){$(players[i]).TVSet().playVideo();}
+      }
+      function stopAll(){
+        for(i in players){$(players[i]).TVSet().stopVideo();}
+      }
+      
+      function debug(){
+        for(i in players){
+          console.log(players[i].offsetLeft + "," + players[i].offsetTop, players[i].clientWidth,players[i].clientHeight);
+        }
+      }
 
       function onYouTubePlayerAPIReady() {
-        var p = addVideo('CGbfKZrUsK0');
+        
+        videos = ['CGbfKZrUsK0', 'pDCLjNsWpHY', '74HlsUaYOpw','bHQqvYy5KYo']; ////,'q7n9GCDh8A8'
+        
+        
+        for  (i in videos)
+        {
+          var p = addVideo(videos[i]);
+          //console.log(p);   
+          players.push(p[0]);       
+          p.css({"left":(i * 350) + "px", "top":(i * 10) + "px"});
+        }
+        
       }
 
       
       $(document).ready(function(){
-        
+        $("body").mousemove(function(event) {
+          var msg = "Handler for .mousemove() called at ";
+          msg += event.pageX + ", " + event.pageY;
+          //console.log(msg);
+          for(i in players){$(players[i]).TVSet().handleMouseMove(event.pageX, event.pageY);}
+        });
       });
     </script>
   </body>

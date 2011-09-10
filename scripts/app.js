@@ -25,3 +25,9 @@ function getRandomChar(){
 	return chars.substr( getRandomNumber(62), 1 );
 }
 
+function mapRange(v, smin, smax, dmin, dmax){
+  if (v < smin){return dmin;}
+  if (v > smax){return dmax;}
+  return dmin + (v - smin) * (dmax - dmin) / (smax - smin);
+}
+
