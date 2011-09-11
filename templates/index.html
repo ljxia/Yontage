@@ -130,6 +130,9 @@
         }
         else
         {
+          //$("#tvs").empty();
+          videos.length = 0;
+          $(window).scrollTop($(window).height());
           video_query_param["start-index"] = 1;
         }
         
