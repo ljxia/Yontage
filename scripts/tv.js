@@ -29,6 +29,11 @@ var TV_CONFIG = [
     type: 5,
     vbounds:[164,139],
     poi:[0,0,164,139]
+  },
+  {        
+    type: 6,
+    vbounds:[290,220],
+    poi:[5,0,391,323]
   }
 ];
 

@@ -4,7 +4,7 @@
   font-size:16px;
 }
 body{
-  background:#999;
+  background:#444;
 }                 
 .hidden{
   display:none;
@@ -45,19 +45,26 @@ body{
 .tv.tv2{width:300px;height:333px;margin-top:-106px;}
 .tv.tv3{width:236px;height:408px;}
 .tv.tv4{width:320px;height:328px;margin-top:-82px;}
-.tv.tv5{width:225px;height:177px;}
+.tv.tv5{width:225px;height:177px;} 
+.tv.tv6{width:395px;height:418px;} 
 
 .tv1 .chrome{background:url(/images/old_tv_01.png) no-repeat;}
 .tv2 .chrome{background:url(/images/old_tv_02.png) no-repeat;}
 .tv3 .chrome{background:url(/images/old_tv_03.png) no-repeat;}
 .tv4 .chrome{background:url(/images/old_tv_04.png) no-repeat;}
-.tv5 .chrome{background:url(/images/old_tv_05.png) no-repeat;}
+.tv5 .chrome{background:url(/images/old_tv_05.png) no-repeat;} 
+.tv6 .chrome{background:url(/images/old_tv_06.png) no-repeat;} 
+.tv7 .chrome{background:url(/images/old_tv_07.png) no-repeat;} 
+.tv8 .chrome{background:url(/images/old_tv_08.png) no-repeat;} 
+.tv9 .chrome{background:url(/images/old_tv_09.png) no-repeat;} 
+.tv10 .chrome{background:url(/images/old_tv_10.png) no-repeat;} 
 
 .tv1 .player{margin-left:44px;margin-top:283px;}
 .tv2 .player{margin-left:22px;margin-top:142px;}
 .tv3 .player{margin-left:47px;margin-top:50px;}
 .tv4 .player{margin-left:14px;margin-top:113px;}
 .tv5 .player{margin-left:12px;margin-top:15px;}
+.tv6 .player{margin-left:53px;margin-top:57px;}
 
 span.query-box{
   display:inline-block;
@@ -71,7 +78,7 @@ span.query-box input[type=search]{
   font-weight:bold;
   background:#D7D7D7;
   padding:8px 14px;
-  border:1px solid #888;
+  border:1px solid #222;
   border-radius:10px;
   width:500px;
   box-shadow:inset 0px 2px 10px #BBB;

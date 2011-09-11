@@ -86,7 +86,8 @@
                
             p.css({
               'left': (side == 0) ? (500 - p.width() + jiggle[0]) : (475 + jiggle[0]),
-              'opacity':0,
+              'opacity':0,     
+              'top':$(window).scrollTop() - p.height(),
               'z-index': video_z_index
             }).animate({
               'top': video_stack_height[side] + jiggle[1],
