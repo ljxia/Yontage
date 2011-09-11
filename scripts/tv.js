@@ -59,7 +59,7 @@ $.fn.TVSet = function() {
   return $.extend(this,{
     done: false,
         
-    init:function(video_id){  
+    init:function(video_id, video_url){  
       
       if (Math.random() <= 0.1)
       {
@@ -74,7 +74,7 @@ $.fn.TVSet = function() {
       player_id = "pl-" + this.tv_id;
       this.addClass("tv tv" + TV_CONFIG[this.tv_type].type);
       $('<div class="chrome"></div>').appendTo(this);
-      $('<div class="player" id="' + player_id + '" data-video="' + video_id + '"></div>').appendTo(this);
+      $('<div class="player" id="' + player_id + '" data-video="' + video_id + '" data-url="' + video_url + '"></div>').appendTo(this);
       // $('<div class="shadow"></div>').appendTo(this);
       
       var player = new YT.Player(player_id, {
@@ -99,6 +99,7 @@ $.fn.TVSet = function() {
       this.data('vbounds',TV_CONFIG[this.tv_type].vbounds);
       this.data('poi',TV_CONFIG[this.tv_type].poi)
       this.data('player',player);
+      this.data('url',video_url);
       
       return this;
     },
@@ -162,6 +163,26 @@ $.fn.TVSet = function() {
       {
         this.getPlayer().playVideo();
       }   
+    },
+    
+    handleMouseUp:function(mouseX, mouseY){
+      var distanceX, distanceY;
+            
+      var left = this[0].offsetLeft + this.data('poi')[0];
+      var top = this[0].offsetTop + this.data('poi')[1];      
+      // var left = this.css('left').replace('px','') + this.data('poi')[0];
+      // var top = this.css('top').replace('px','') + this.data('poi')[1];  
+      var width = this.data('poi')[2];
+      var height = this.data('poi')[3];
+      
+      distanceX = Math.abs(left + width/2 - mouseX);
+      distanceY = Math.abs(top + height/2 - mouseY);
+      
+      if (distanceX <= width/2 && distanceY <= height/2)
+      {
+        $('#message').text(this.data('url'));
+      }
+      
     },
     
     handleWindowScroll:function(window_top, window_bottom){

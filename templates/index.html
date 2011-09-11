@@ -8,8 +8,10 @@
     <div id="tvs"></div>
     <div id="controls">
       <span class="query-box hidden">
-        <input type="search" id="video-search" placeholder="Search Video Here..." />
+        <input type="search" id="video-search" placeholder="Search Video Here..." /><br/>
+        <span id="message"></span>
       </span>
+      
     </div>
     
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
@@ -41,8 +43,8 @@
       };    
       video_query_keyword = "";
       
-      function addVideo(video_id){
-        p = $('<div></div>').appendTo('#tvs').TVSet().init(video_id);
+      function addVideo(video_id,video_url){
+        p = $('<div></div>').appendTo('#tvs').TVSet().init(video_id,video_url);
         players.push(p);   
         
         // window_top = $(window).scrollTop();
@@ -79,7 +81,8 @@
               side = 1-side;
             }
           
-            var p = addVideo(videos.shift());
+            var v = videos.shift();
+            var p = addVideo(v['video'],v['url']);
             
             jiggle = [
               Math.floor(Math.random() * 80) - 40, 
@@ -142,10 +145,22 @@
           if (data.feed.entry)
             for (var i=0; i < data.feed.entry.length; i++) {
               var o = data.feed.entry[i];
+              var url = "";
+              
+              for (l in o["link"])
+              {
+                link = o["link"][l];
+                if (link["type"] == "text/html" && link["rel"] == "alternate")
+                {
+                  url = link["href"];
+                  //console.log(url);
+                }
+              }
+              
               var videoid = o["media$group"]["yt$videoid"]["$t"];
               console.log(videoid);
               //players.push(addVideo(videoid)[0]);     
-              videos.push(videoid);
+              videos.push({'video':videoid,'url':url});
             };
             
             // $('#tvs').masonry({
@@ -216,6 +231,8 @@
       $(document).ready(function(){
         $("body").mousemove(function(event) {
           for(i in players){$(players[i]).TVSet().handleMouseMove(event.pageX, event.pageY);}
+        }).mouseup(function(event) {
+          for(i in players){$(players[i]).TVSet().handleMouseUp(event.pageX, event.pageY);}
         });
         
         
@@ -231,7 +248,11 @@
             $(this).blur();
             findVideos($('#video-search').val());
             publishQuery();
-           }
+          }
+        });
+        
+        $('.tv').live('click',function(){
+          //$('#message').text($(this).find('.player').data('url'));
         });
         
         onLayout();      
