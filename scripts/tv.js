@@ -39,7 +39,7 @@ $.fn.TVSet = function() {
     done: false,
         
     init:function(video_id){
-      this.tv_type = Math.floor(Math.random()* (TV_CONFIG.length - 2) + 2),
+      this.tv_type = Math.floor(Math.random()* (TV_CONFIG.length - 1) + 1),
       
       player_id = "pl-" + this.tv_id;
       this.addClass("tv tv" + this.tv_type);
@@ -54,7 +54,7 @@ $.fn.TVSet = function() {
           enablejsapi:1,
           controls: 0,
           html5:1,
-          autoplay:1,
+          autoplay:0,
           loop:1,
           origin:window.location.host
         },
@@ -117,6 +117,18 @@ $.fn.TVSet = function() {
       t = mapRange(distanceY, (height * 0.25), (height * 1.2), 10, 0);
       
       this.getPlayer().setVolume(s*t);//s*t
+      
+      
+      s = mapRange(distanceX, (width * 0.25), (width * 2), 10, 0);
+      t = mapRange(distanceY, (height * 0.25), (height * 2), 10, 0);
+      if (s * t == 0)
+      {
+        this.getPlayer().pauseVideo();
+      }
+      else
+      {
+        this.getPlayer().playVideo();
+      }
     }
     
   });
