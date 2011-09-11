@@ -11,6 +11,18 @@ var TV_CONFIG = [
   {
     vbounds:[215,165],
     poi:[2,107,295,215]
+  },
+  {
+    vbounds:[149,108],
+    poi:[2,10,236,175]
+  },
+  {
+    vbounds:[231,174],
+    poi:[4,97,314,211]
+  },
+  {
+    vbounds:[164,139],
+    poi:[0,0,164,139]
   }
 ];
 
@@ -27,7 +39,7 @@ $.fn.TVSet = function() {
     done: false,
         
     init:function(video_id){
-      this.tv_type = Math.floor(Math.random()* (TV_CONFIG.length - 1) + 1),
+      this.tv_type = Math.floor(Math.random()* (TV_CONFIG.length - 2) + 2),
       
       player_id = "pl-" + this.tv_id;
       this.addClass("tv tv" + this.tv_type);

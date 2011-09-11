@@ -9,10 +9,10 @@ body{
 .tv{
 /*  border:1px solid #CCC;*/
   padding:0;
-/*  -webkit-transform:rotate(0deg);*/
+  -webkit-transform:rotate(5deg);
 /*  margin-left:200px;*/
-  position:static;
-  float:left;
+/*  position:static;
+  float:left;*/
   overflow:hidden;
 }
 
@@ -38,20 +38,28 @@ body{
 
 .tv.tv1{width:600px;height:665px;margin-top:-213px;}
 .tv.tv2{width:300px;height:333px;margin-top:-106px;}
+.tv.tv3{width:236px;height:408px;}
+.tv.tv4{width:320px;height:328px;margin-top:-82px;}
+.tv.tv5{width:225px;height:177px;}
 
 .tv1 .chrome{background:url(/images/old_tv_01.png) no-repeat;}
 .tv2 .chrome{background:url(/images/old_tv_02.png) no-repeat;}
+.tv3 .chrome{background:url(/images/old_tv_03.png) no-repeat;}
+.tv4 .chrome{background:url(/images/old_tv_04.png) no-repeat;}
+.tv5 .chrome{background:url(/images/old_tv_05.png) no-repeat;}
 
 .tv1 .player{margin-left:44px;margin-top:283px;}
 .tv2 .player{margin-left:22px;margin-top:142px;}
-
+.tv3 .player{margin-left:47px;margin-top:50px;}
+.tv4 .player{margin-left:14px;margin-top:113px;}
+.tv5 .player{margin-left:12px;margin-top:15px;}
 
 span.query-box{
   display:inline-block;
   padding:20px;
 }
 
-span.query-box input[type=text]{
+span.query-box input[type=search]{
   font-size:24px;
   color:#999;
   text-shadow:1px 2px 1px #222;
@@ -62,4 +70,12 @@ span.query-box input[type=text]{
   border-radius:10px;
   width:500px;
   box-shadow:inset 0px 2px 10px #222;
+  -webkit-appearance:textfield;
+}
+
+input::-webkit-input-placeholder {
+    color:    #555;
+}
+input:-moz-placeholder {
+    color:    #555;
 }

@@ -8,13 +8,17 @@
     <div id="tvs"></div>
     <div id="controls">
       <span class="query-box">
-        <input type="text" id="video-search" />
+        <input type="search" id="video-search" placeholder="Search Video Here..." />
       </span>
     </div>
     
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
+    <script src="/scripts/jquery.masonry.min.js" type="text/javascript" charset="utf-8"></script>
+    
     <script src="/scripts/app.js" type="text/javascript" charset="utf-8"></script>
     <script src="/scripts/tv.js" type="text/javascript" charset="utf-8"></script>
+    
+    
     <script type="text/javascript" src="/_ah/channel/jsapi"></script>
     <script>
       var players = [];
@@ -43,7 +47,7 @@
         $.get(url,{
           'q':query,
           'orderby':'published',
-          'max-results':10,
+          'max-results':12,
           'alt':'json',
           'format':5,
           'paid-content':false,
@@ -56,6 +60,11 @@
               console.log(videoid);
               players.push(addVideo(videoid)[0]);
             };
+            
+            $('#tvs').masonry({
+              itemSelector: '.tv',
+              isAnimated: true
+            });
         })
       }
       
