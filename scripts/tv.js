@@ -146,16 +146,16 @@ $.fn.TVSet = function() {
       var height = this.data('poi')[3];
       
       distanceX = Math.abs(left + width/2 - mouseX);
-      s = mapRange(distanceX, (width * 0.25), (width * 1.2), 10, 0);
+      s = mapRange(distanceX, (width * 0.25), (width * 1.3), 10, 0);
       distanceY = Math.abs(top + height/2 - mouseY);
-      t = mapRange(distanceY, (height * 0.25), (height * 1.2), 10, 0);
+      t = mapRange(distanceY, (height * 0.25), (height * 1.3), 10, 0);
       
       this.getPlayer().setVolume(s*t);//s*t
       
       
-      s = mapRange(distanceX, (width * 0.25), (width * 1.3), 10, 0);
-      t = mapRange(distanceY, (height * 0.25), (height * 1.3), 10, 0);
-      if (s * t == 0)
+      //s = mapRange(distanceX, (width * 0.25), (width * 1.7), 10, 0);
+      t = mapRange(distanceY, (height * 0.25), (height * 2), 10, 0);
+      if (t == 0)
       {
         this.getPlayer().pauseVideo();
       }
