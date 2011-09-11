@@ -22,10 +22,17 @@
     <script type="text/javascript" src="/_ah/channel/jsapi"></script>
     <script>
       var players = [];
-      var videos = [];
+      var videos = [];      
+      
+      
+      var video_query_url,video_query_param;     
+      var video_stack_height = [0,0];
+      var video_z_index = 0;
       
       function addVideo(video_id){
-        return $('<div></div>').prependTo('#tvs').TVSet().init(video_id);
+        p = $('<div></div>').appendTo('#tvs').TVSet().init(video_id);
+        players.push(p);
+        return p;
       }
       
       function playAll(){
@@ -40,11 +47,45 @@
           // console.log("after ajax");
           // console.log(data);
         });
+      }    
+      
+      function processVideoQueue(queue){
+        // add more video until video stack height is larger than current window view port
+        // or queue is empty
+        var window_height = $(window).height() + $(window).scrollTop();            
+        var side = 0;    
+        
+        while (video_stack_height[side] <= window_height && videos.length > 0)
+        {
+            if (video_stack_height[side] > video_stack_height[1-side])
+            {
+              side = 1-side;
+            }
+          
+            var p = addVideo(videos.shift());
+            
+            jiggle = [
+              Math.floor(Math.random() * 80) - 40, 
+              Math.floor(Math.random() * 50) - 25
+            ];
+               
+            p.css({
+              'left': (side == 0) ? (600 - p.width() + jiggle[0]) : (575 + jiggle[0]),
+              'top': video_stack_height[side] + jiggle[1],
+              'z-index': video_z_index
+            });  
+            
+            video_stack_height[side] += (jiggle[1] + p.data('poi')[3]);   
+            video_z_index += 10;
+        }          
+                                
+        $('#tvs').css('height',video_stack_height[side] + 100);   
+        
       }
 
       function findVideos(query){
-        var url = "https://gdata.youtube.com/feeds/api/videos";
-        $.get(url,{
+        video_query_url = "https://gdata.youtube.com/feeds/api/videos";      
+        video_query_param = {
           'q':query,
           'orderby':'published',
           'max-results':20,
@@ -52,19 +93,23 @@
           'format':5,
           'paid-content':false,
           'v':2
-        },function(data){
+        };           
+        
+        $.get(video_query_url,video_query_param,function(data){
           if (data.feed.entry)
             for (var i=0; i < data.feed.entry.length; i++) {
               var o = data.feed.entry[i];
               var videoid = o["media$group"]["yt$videoid"]["$t"];
               console.log(videoid);
-              players.push(addVideo(videoid)[0]);
+              //players.push(addVideo(videoid)[0]);     
+              videos.push(videoid);
             };
             
             // $('#tvs').masonry({
             //   itemSelector: '.tv',
             //   isAnimated: true
-            // }); 
+            // });  
+            processVideoQueue(videos);
         })
       }
       
@@ -74,17 +119,24 @@
           'left': (window.innerWidth - $('span.query-box').width())/2 + "px",
           'top': ((window.innerHeight - $('span.query-box').height())/2 - 30) + "px"
         }).removeClass("hidden");
+      }      
+      
+      function onWindowScroll(){
+        processVideoQueue(videos);
+        if (videos.length == 0){
+          console.log('video queue cleared');
+        }
       }
 
       function onYouTubePlayerAPIReady() {
         //['CGbfKZrUsK0', 'pDCLjNsWpHY', '74HlsUaYOpw','bHQqvYy5KYo', 'uAusmM0fhkc']; ////,'q7n9GCDh8A8'
         
         //for (var j = 0;j < 2;j++)
-        for (i in videos)
-        {
-          var p = addVideo(videos[i]);
-          players.push(p[0]);       
-        }
+        // for (i in videos)
+        // {
+        //   var p = addVideo(videos[i]);
+        //   players.push(p[0]);       
+        // }   
         
       }
 
@@ -108,7 +160,9 @@
         });
         
         
-        $(window).bind('resize',onLayout);
+        $(window)
+          .bind('resize',onLayout)
+          .bind('scroll',onWindowScroll);
         
         $('#video-search').bind('keypress',function(event){
           if ( event.which == 13 ) {

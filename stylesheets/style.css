@@ -4,7 +4,7 @@
   font-size:16px;
 }
 body{
-  background:#CCC;
+  background:#999;
 }                 
 .hidden{
   display:none;
@@ -15,7 +15,7 @@ body{
   padding:0;
 /*  -webkit-transform:rotate(5deg);*/
 /*  margin-left:200px;*/
-  position:static;
+  position:absolute;
   float:left; 
   overflow:hidden;
 }
@@ -68,12 +68,12 @@ span.query-box input[type=search]{
   color:#555;
   text-shadow:-1px -1px 1px #DDD;
   font-weight:bold;
-  background:#C0C0C0;
+  background:#D7D7D7;
   padding:8px 14px;
   border:1px solid #AAA;
   border-radius:10px;
   width:500px;
-  box-shadow:inset 0px 2px 10px #AAA;
+  box-shadow:inset 0px 2px 10px #BBB;
   -webkit-appearance:textfield;
 }
 

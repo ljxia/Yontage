@@ -5,21 +5,21 @@ var TV_CONFIG = [
   //   vbounds:[320,180],
   //   poi:[0,0,320,180] //
   // },
-  // {            
-  //   type: 1,
-  //   vbounds:[430,330],
-  //   poi:[6,213,590,430] // 
-  // }, 
+  {            
+    type: 1,
+    vbounds:[430,330],
+    poi:[6,213,590,430] // 
+  },   
   { 
     type: 2,
     vbounds:[215,165],
     poi:[2,107,295,215]
   },
-  // {        
-  //   type: 3,
-  //   vbounds:[149,108],
-  //   poi:[2,10,236,175]
-  // },   
+  {        
+    type: 3,
+    vbounds:[149,108],
+    poi:[2,10,236,175]
+  },   
   {        
     type: 4,
     vbounds:[231,174],
@@ -44,8 +44,17 @@ $.fn.TVSet = function() {
   return $.extend(this,{
     done: false,
         
-    init:function(video_id){
-      this.tv_type = Math.floor(Math.random()* (TV_CONFIG.length - 1) + 1),
+    init:function(video_id){  
+      
+      if (Math.random() <= 0.1)
+      {
+        this.tv_type = 0;
+      }                  
+      else
+      {
+        this.tv_type = Math.floor(Math.random()* (TV_CONFIG.length - 1) + 1);
+      }
+      
       
       player_id = "pl-" + this.tv_id;
       this.addClass("tv tv" + TV_CONFIG[this.tv_type].type);
@@ -113,7 +122,9 @@ $.fn.TVSet = function() {
       var s,t,distanceX, distanceY;
             
       var left = this[0].offsetLeft + this.data('poi')[0];
-      var top = this[0].offsetTop + this.data('poi')[1];
+      var top = this[0].offsetTop + this.data('poi')[1];      
+      // var left = this.css('left').replace('px','') + this.data('poi')[0];
+      // var top = this.css('top').replace('px','') + this.data('poi')[1];  
       var width = this.data('poi')[2];
       var height = this.data('poi')[3];
       
