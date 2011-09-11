@@ -136,8 +136,8 @@ $.fn.TVSet = function() {
       this.getPlayer().setVolume(s*t);//s*t
       
       
-      s = mapRange(distanceX, (width * 0.25), (width * 1), 10, 0);
-      t = mapRange(distanceY, (height * 0.25), (height * 1), 10, 0);
+      s = mapRange(distanceX, (width * 0.25), (width * 1.3), 10, 0);
+      t = mapRange(distanceY, (height * 0.25), (height * 1.3), 10, 0);
       if (s * t == 0)
       {
         this.getPlayer().pauseVideo();
@@ -146,6 +146,22 @@ $.fn.TVSet = function() {
       {
         this.getPlayer().playVideo();
       }   
+    },
+    
+    handleWindowScroll:function(window_top, window_bottom){
+
+      // 
+      // this_top = this[0].offsetTop + this.data('poi')[1] + this.data('poi')[3]/4;
+      // this_bottom = this_top + this.data('poi')[3] - this.data('poi')[3]/4;       
+      // 
+      // if (this_bottom >= window_top && this_top <= window_bottom)
+      // {
+      //    this.getPlayer().playVideo();
+      // }    
+      // else
+      // {
+      //   this.getPlayer().pauseVideo();
+      // }   
     }
     
   });
