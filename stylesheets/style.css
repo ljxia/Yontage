@@ -4,7 +4,8 @@
   font-size:16px;
 }
 body{
-  background:#444;
+  background:url(/images/video_wall.png) #444;
+  
 }                 
 .hidden{
   display:none;
@@ -28,11 +29,19 @@ body{
   z-index:200;
 }
 
-.screen{
+.shadow{
+  width:100%;
+  height:100%;
+  position:absolute;
+  z-index:50;
+  margin-top:-10px;
+}
+
+/*.screen{
   background:rgba(30,60,30, 0.6);
   position:absolute;
   z-index:200;
-}
+}*/
 
 .player{
   position:absolute;
@@ -59,7 +68,9 @@ body{
 .tv7 .chrome{background:url(/images/old_tv_07.png) no-repeat;} 
 .tv8 .chrome{background:url(/images/old_tv_08.png) no-repeat;} 
 .tv9 .chrome{background:url(/images/old_tv_09.png) no-repeat;} 
-.tv10 .chrome{background:url(/images/old_tv_10.png) no-repeat;} 
+.tv10 .chrome{background:url(/images/old_tv_10.png) no-repeat;}
+
+/*.tv1 .shadow{background:url(/images/old_tv_01_s.png) no-repeat;} */
 
 .tv1 .player{margin-left:44px;margin-top:283px;}
 .tv2 .player{margin-left:22px;margin-top:142px;}

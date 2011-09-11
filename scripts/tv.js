@@ -75,6 +75,7 @@ $.fn.TVSet = function() {
       this.addClass("tv tv" + TV_CONFIG[this.tv_type].type);
       $('<div class="chrome"></div>').appendTo(this);
       $('<div class="player" id="' + player_id + '"></div>').appendTo(this);
+      // $('<div class="shadow"></div>').appendTo(this);
       
       var player = new YT.Player(player_id, {
         width: TV_CONFIG[this.tv_type].vbounds[0],

@@ -162,7 +162,7 @@
         }).removeClass("hidden");
       }      
       
-      function onWindowScroll(){
+      function onWindowScroll(event){
         processVideoQueue(videos);
         if (videos.length == 0){
           console.log('video queue cleared'); 
@@ -170,7 +170,9 @@
           findVideos(video_query_keyword);
         }                   
         
-        processVideoPlayState();
+        processVideoPlayState();   
+        
+        console.log(event);
       }
 
       function onYouTubePlayerAPIReady() {
