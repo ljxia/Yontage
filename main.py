@@ -20,6 +20,7 @@ from google.appengine.ext.webapp import RequestHandler,template
 from google.appengine.api import channel
 import uuid
 import simplejson    
+import urllib2
 
 import OpenTokSDK
                  
@@ -61,7 +62,7 @@ class QueryHandler(webapp.RequestHandler):
       
       if channel_token and query:        
         message = simplejson.dumps({
-          'query':query
+          'query':urllib2.unquote(query)
         })
         
         

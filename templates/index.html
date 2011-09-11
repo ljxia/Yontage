@@ -152,6 +152,14 @@
             processVideoQueue(videos);  
             //processVideoPlayState();
         })
+        
+      }
+      
+      function publishQuery(){
+        // publish query
+        $.get('/q/' + token + '/' + video_query_keyword,function(data){
+
+        });
       }
       
       function onLayout(){
@@ -190,7 +198,16 @@
       
       onChannelMessage = function(message){
         console.log("Channel Message Received");
-        console.log(JSON.parse(message.data));
+        data = JSON.parse(message.data);
+        console.log(data);
+        
+        if (data.query != video_query_keyword)
+        {
+          findVideos(data.query);
+          $('#video-search').val(data.query);
+          $('span.query-box').addClass("side");
+          onLayout();
+        }
       }
       
       $(document).ready(function(){
@@ -210,6 +227,7 @@
             });
             $(this).blur();
             findVideos($('#video-search').val());
+            publishQuery();
            }
         });
         
