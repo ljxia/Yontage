@@ -25,19 +25,21 @@
       var videos = [];      
       
       
-      var video_query_url,video_query_param;     
+      var video_query_url,video_query_param,video_query_keyword,video_query_max_result;     
       var video_stack_height = [0,0];
       var video_z_index = 0;          
                  
       video_query_url = "https://gdata.youtube.com/feeds/api/videos"; 
+      video_query_max_result = 10;
       video_query_param = {
         'orderby':'published',
-        'max-results':50,
+        'max-results':video_query_max_result,
         'alt':'json',
         'format':5,
         'paid-content':false,
         'v':2
-      };
+      };    
+      video_query_keyword = "";
       
       function addVideo(video_id){
         p = $('<div></div>').appendTo('#tvs').TVSet().init(video_id);
@@ -112,8 +114,26 @@
         //  }   
       }
 
-      function findVideos(query){    
-        video_query_param["q"] = query;        
+      function findVideos(query){   
+        video_query_param["q"] = query; 
+        
+        if (query == video_query_keyword)
+        {
+          if (video_query_param["start-index"])
+          {
+             video_query_param["start-index"] = video_query_param["start-index"] + video_query_max_result;
+          }  
+          else
+          {
+            video_query_param["start-index"] = 1 + video_query_max_result;
+          }
+        }
+        else
+        {
+          video_query_param["start-index"] = 1;
+        }
+        
+        video_query_keyword = query; 
         
         $.get(video_query_url,video_query_param,function(data){
           if (data.feed.entry)
@@ -145,7 +165,9 @@
       function onWindowScroll(){
         processVideoQueue(videos);
         if (videos.length == 0){
-          console.log('video queue cleared');
+          console.log('video queue cleared'); 
+          console.log('querying for more'); 
+          findVideos(video_query_keyword);
         }                   
         
         processVideoPlayState();
