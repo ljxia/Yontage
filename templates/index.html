@@ -7,7 +7,7 @@
   <body>
     <div id="tvs"></div>
     <div id="controls">
-      <span class="query-box">
+      <span class="query-box hidden">
         <input type="search" id="video-search" placeholder="Search Video Here..." />
       </span>
     </div>
@@ -47,7 +47,7 @@
         $.get(url,{
           'q':query,
           'orderby':'published',
-          'max-results':50,
+          'max-results':20,
           'alt':'json',
           'format':5,
           'paid-content':false,
@@ -61,10 +61,10 @@
               players.push(addVideo(videoid)[0]);
             };
             
-            $('#tvs').masonry({
-              itemSelector: '.tv',
-              isAnimated: true
-            });
+            // $('#tvs').masonry({
+            //   itemSelector: '.tv',
+            //   isAnimated: true
+            // }); 
         })
       }
       
@@ -73,7 +73,7 @@
           'position':'absolute',
           'left': (window.innerWidth - $('span.query-box').width())/2 + "px",
           'top': (window.innerHeight - $('span.query-box').height())/2 + "px"
-        });
+        }).removeClass("hidden");
       }
 
       function onYouTubePlayerAPIReady() {

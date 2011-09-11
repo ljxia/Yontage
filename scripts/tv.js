@@ -1,26 +1,32 @@
 // make div a tv
 var TV_CONFIG = [
-  {
-    vbounds:[320,180],
-    poi:[0,0,320,180] //
-  },
-  {
-    vbounds:[430,330],
-    poi:[6,213,590,430] // 
-  },
-  {
+  // {    
+  //   type: 0,
+  //   vbounds:[320,180],
+  //   poi:[0,0,320,180] //
+  // },
+  // {            
+  //   type: 1,
+  //   vbounds:[430,330],
+  //   poi:[6,213,590,430] // 
+  // }, 
+  { 
+    type: 2,
     vbounds:[215,165],
     poi:[2,107,295,215]
   },
-  {
-    vbounds:[149,108],
-    poi:[2,10,236,175]
-  },
-  {
+  // {        
+  //   type: 3,
+  //   vbounds:[149,108],
+  //   poi:[2,10,236,175]
+  // },   
+  {        
+    type: 4,
     vbounds:[231,174],
     poi:[4,97,314,211]
   },
-  {
+  {        
+    type: 5,
     vbounds:[164,139],
     poi:[0,0,164,139]
   }
@@ -42,7 +48,7 @@ $.fn.TVSet = function() {
       this.tv_type = Math.floor(Math.random()* (TV_CONFIG.length - 1) + 1),
       
       player_id = "pl-" + this.tv_id;
-      this.addClass("tv tv" + this.tv_type);
+      this.addClass("tv tv" + TV_CONFIG[this.tv_type].type);
       $('<div class="chrome"></div>').appendTo(this);
       $('<div class="player" id="' + player_id + '"></div>').appendTo(this);
       
@@ -119,8 +125,8 @@ $.fn.TVSet = function() {
       this.getPlayer().setVolume(s*t);//s*t
       
       
-      s = mapRange(distanceX, (width * 0.25), (width * 2), 10, 0);
-      t = mapRange(distanceY, (height * 0.25), (height * 2), 10, 0);
+      s = mapRange(distanceX, (width * 0.25), (width * 1), 10, 0);
+      t = mapRange(distanceY, (height * 0.25), (height * 1), 10, 0);
       if (s * t == 0)
       {
         this.getPlayer().pauseVideo();
@@ -128,7 +134,7 @@ $.fn.TVSet = function() {
       else
       {
         this.getPlayer().playVideo();
-      }
+      }   
     }
     
   });

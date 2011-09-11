@@ -23,17 +23,20 @@ import simplejson
 
 
 class MainHandler(webapp.RequestHandler):
-    def get(self):
-      
-      token = str(uuid.uuid4())
-      channel_token = channel.create_channel(token)
-      
-      self.response.headers['Content-Type'] = 'text/html'
-      self.response.out.write(template.render('templates/index.html',
-                                {
-                                  'channel_token': channel_token,
-                                  'token': token
-                                }))
+    def get(self):      
+      token = str(uuid.uuid4())[:8]      
+      self.redirect("/w/" + token)
+             
+class WatchHandler(webapp.RequestHandler):
+    def get(self, token):
+        channel_token = channel.create_channel(token)
+
+        self.response.headers['Content-Type'] = 'text/html'
+        self.response.out.write(template.render('templates/index.html',
+                                  {
+                                    'channel_token': channel_token,
+                                    'token': token
+                                  }))  
 
 class QueryHandler(webapp.RequestHandler):
     def get(self,channel_token,query):
@@ -52,7 +55,8 @@ class QueryHandler(webapp.RequestHandler):
 
 def main():
     application = webapp.WSGIApplication([
-                                          ('/', MainHandler),
+                                          ('/', MainHandler),     
+                                          ('/w/([^/]+)?',WatchHandler),
                                           ('/q/([^/]+)?/([^/]+)?', QueryHandler)
                                          ],
                                          debug=True)

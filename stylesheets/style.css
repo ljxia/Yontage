@@ -5,14 +5,18 @@
 }
 body{
   background:#333;
+}                 
+.hidden{
+  display:none;
+  visibility:hidden;
 }
 .tv{
 /*  border:1px solid #CCC;*/
   padding:0;
 /*  -webkit-transform:rotate(5deg);*/
 /*  margin-left:200px;*/
-/*  position:static;
-  float:left;*/
+  position:static;
+  float:left; 
   overflow:hidden;
 }
 
