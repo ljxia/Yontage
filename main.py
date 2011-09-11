@@ -28,7 +28,12 @@ class MainHandler(webapp.RequestHandler):
       self.redirect("/w/" + token)
              
 class WatchHandler(webapp.RequestHandler):
-    def get(self, token):
+    def get(self, token): 
+        
+        if not token:
+            self.redirect("/")
+            return
+            
         channel_token = channel.create_channel(token)
 
         self.response.headers['Content-Type'] = 'text/html'
