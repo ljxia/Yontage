@@ -19,8 +19,12 @@ from google.appengine.ext.webapp import util
 from google.appengine.ext.webapp import RequestHandler,template 
 from google.appengine.api import channel
 import uuid
-import simplejson
+import simplejson    
 
+import OpenTokSDK
+                 
+OPENTOK_API_KEY = '4383481'    
+OPENTOK_API_SECRET = '2359bc5bdd56f90b4b6b24cd3442ffccddaad6c4'
 
 class MainHandler(webapp.RequestHandler):
     def get(self):      
@@ -32,7 +36,13 @@ class WatchHandler(webapp.RequestHandler):
         
         if not token:
             self.redirect("/")
-            return
+            return      
+            
+            
+        opentok_sdk = OpenTokSDK.OpenTokSDK(OPENTOK_API_KEY, OPENTOK_API_SECRET)  
+        session_address = "localhost:8084" 
+        opentok_session = opentok_sdk.create_session(session_address)  
+        opentok_token = opentok_sdk.generate_token(opentok_session.session_id)
             
         channel_token = channel.create_channel(token)
 
@@ -40,7 +50,9 @@ class WatchHandler(webapp.RequestHandler):
         self.response.out.write(template.render('templates/index.html',
                                   {
                                     'channel_token': channel_token,
-                                    'token': token
+                                    'token': token,
+                                    'opentok_session_id' :opentok_session.session_id,
+                                    'opentok_token' : opentok_token
                                   }))  
 
 class QueryHandler(webapp.RequestHandler):

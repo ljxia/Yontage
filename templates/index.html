@@ -13,7 +13,7 @@
     </div>
     
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
-    <script src="/scripts/jquery.masonry.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://staging.tokbox.com/v0.91/js/TB.min.js" ></script>
     
     <script src="/scripts/app.js" type="text/javascript" charset="utf-8"></script>
     <script src="/scripts/tv.js" type="text/javascript" charset="utf-8"></script>
@@ -208,8 +208,30 @@
            }
         });
         
-        onLayout();
+        onLayout();      
         
+        console.log('OpenTok: {{opentok_session_id}} -- {{opentok_token}}');
+        // var opentok_session = TB.initSession("{{opentok_session_id}}");  
+        // opentok_session.connect(1127, "devtoken");           
+        // opentok_session.addEventListener("sessionConnected", sessionConnectedHandler);
+        // opentok_session.addEventListener("streamCreated", streamCreatedHandler);
+        // function sessionConnectedHandler (event) {
+        //      subscribeToStreams(event.streams);
+        //      session.publish();
+        // }  
+
+        function subscribeToStreams(streams) {
+            for (i = 0; i < streams.length; i++) {
+                var stream = streams[i];
+                if (stream.connection.connectionId != session.connection.connectionId) {
+                    session.subscribe(stream);
+                }
+            }
+        }
+        
+        function streamCreatedHandler(event) {
+            subscribeToStreams(event.streams);
+        }
         
         channel = new goog.appengine.Channel('{{channel_token}}');
         socket = channel.open();
