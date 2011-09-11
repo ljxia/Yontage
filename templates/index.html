@@ -8,6 +8,8 @@
     <div id="tvs"></div>
     <div id="broadcasters"></div>
     <div id="controls">
+      <span class="broadcast-me">+</span>
+      
       <span class="query-box hidden">
         <input type="search" id="video-search" placeholder="Search Video Here..." /><br/>
         <span id="message"></span>
@@ -230,16 +232,23 @@
       var publishers = [];
       var subscribers = [];
       var publisher;
+      
+      var right_range = 0;
       var startBroadcasting = function(){
         id = getUID(8);
-        var frame = $('<div id="player_' + id + '"></div>');
-        frame.css({
-          'width':400,
-          'height':300
+        var frame = $('<div><div id="player_' + id + '"></div></div>');
+        frame.addClass("").css({
+          'position':'fixed',
+          'top':0,
+          'right':right_range
         }).appendTo('#broadcasters');
         
+        prop = {width: 320, height:240, name:""};        
+        
+        right_range += 320;
+        
         publisher = opentok_session.publish('player_' + id);
-        publishers.push(publisher);
+        publishers.push(publisher,prop);
       }
       
       var stopBroadcasting = function(){
@@ -285,15 +294,26 @@
   				return;
   			}
   			
+  			tv_type = Math.floor(Math.random()* (TV_CONFIG.length - 1) + 1);
   			
   			id = getUID(8);
-        var frame = $('<div id="player_' + id + '"></div>');
-        frame.css({
-          'width':400,
-          'height':300
+        var frame = $('<div></div>');
+        frame.addClass('tv tv' + TV_CONFIG[tv_type].type).css({
+          // 'width':400,
+          // 'height':300
+          'position':'fixed',
+          'top':0,
+          'right':right_range + 2
         }).data('stream-id', stream.streamId).appendTo('#broadcasters');
+        
+        right_range += frame.width();
+        
+        prop = {width: TV_CONFIG[tv_type].vbounds[0], height:TV_CONFIG[tv_type].vbounds[1], name:""};
+        
+        $('<div class="chrome"></div>').appendTo(frame);
+        $('<div class="player"><div id="player_' + id + '"></div></div>').appendTo(frame);
   			
-  			subscribers[stream.streamId] = opentok_session.subscribe(stream, 'player_' + id);
+  			subscribers[stream.streamId] = opentok_session.subscribe(stream, 'player_' + id, prop);
   		}
       
       function streamCreatedHandler(event) {
@@ -325,6 +345,11 @@
         
         $('.tv').live('click',function(){
           //$('#message').text($(this).find('.player').data('url'));
+        });
+        
+        $(".broadcast-me").click(function(){
+          startBroadcasting();
+          $(this).hide();
         });
         
         onLayout();      
