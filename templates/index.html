@@ -6,6 +6,7 @@
   </head>
   <body>
     <div id="tvs"></div>
+    <div id="broadcasters"></div>
     <div id="controls">
       <span class="query-box hidden">
         <input type="search" id="video-search" placeholder="Search Video Here..." /><br/>
@@ -57,15 +58,13 @@
       function playAll(){
         for(i in players){$(players[i]).TVSet().playVideo();}
       }
+      
       function stopAll(){
         for(i in players){$(players[i]).TVSet().stopVideo();}
       }
       
       function debug(){
-        $.get('/q/' + token + '/' + "nyan+cat",function(data){
-          // console.log("after ajax");
-          // console.log(data);
-        });
+
       }    
       
       function processVideoQueue(queue){
@@ -108,7 +107,6 @@
       }  
       
       function processVideoPlayState(){      
-        
         // window_top = $(window).scrollTop();
         // window_bottom = window_top + $(window).height();
         // 
@@ -208,6 +206,7 @@
       var token = '{{token}}';
       var channel, socket;
       var onChannelOpened, onChannelMessage, onChannelError, onChannelClose;
+      var opentok_session;
       
       onChannelOpened = function(){
         console.log("Channel opened");
@@ -217,7 +216,7 @@
       onChannelMessage = function(message){
         console.log("Channel Message Received");
         data = JSON.parse(message.data);
-        console.log(data);
+        //console.log(data);
         
         if (data.query != video_query_keyword)
         {
@@ -228,13 +227,86 @@
         }
       }
       
+      var publishers = [];
+      var subscribers = [];
+      var publisher;
+      var startBroadcasting = function(){
+        id = getUID(8);
+        var frame = $('<div id="player_' + id + '"></div>');
+        frame.css({
+          'width':400,
+          'height':300
+        }).appendTo('#broadcasters');
+        
+        publisher = opentok_session.publish('player_' + id);
+        publishers.push(publisher);
+      }
+      
+      var stopBroadcasting = function(){
+        if (publisher){
+          opentok_session.unpublish(publisher);
+        }
+      }
+      
+      var setupOpenTok = function(){
+        console.log('OpenTok: {{opentok_session_id}} -- {{opentok_token}}');
+        opentok_session = TB.initSession("{{opentok_session_id}}");  
+        opentok_session.connect(1127, "devtoken");           
+        opentok_session.addEventListener("sessionConnected", sessionConnectedHandler);
+        opentok_session.addEventListener("streamCreated", streamCreatedHandler);
+        
+        TB.setLogLevel(TB.DEBUG);
+        TB.addEventListener("exception", exceptionHandler);
+      }
+      
+      function exceptionHandler(event) {
+          console.log("Exception msg:" + event.message +
+                  "title: " + event.title + " code: " + event.code);
+      }
+      
+      function sessionConnectedHandler (event) {
+           subscribeToStreams(event.streams);
+           
+      }  
+
+      function subscribeToStreams(streams) {
+          for (i = 0; i < streams.length; i++) {
+              var stream = streams[i];
+              addStream(stream);
+              // if (stream.connection.connectionId != opentok_session.connection.connectionId) {
+              //                   opentok_session.subscribe(stream);
+              //               }
+          }
+      }
+      
+      function addStream(stream) {
+  			// Check if this is the stream that I am publishing, and if so do not publish.
+  			if (stream.connection.connectionId == opentok_session.connection.connectionId) {
+  				return;
+  			}
+  			
+  			
+  			id = getUID(8);
+        var frame = $('<div id="player_' + id + '"></div>');
+        frame.css({
+          'width':400,
+          'height':300
+        }).data('stream-id', stream.streamId).appendTo('#broadcasters');
+  			
+  			subscribers[stream.streamId] = opentok_session.subscribe(stream, 'player_' + id);
+  		}
+      
+      function streamCreatedHandler(event) {
+          subscribeToStreams(event.streams);
+      }
+      
       $(document).ready(function(){
+        
         $("body").mousemove(function(event) {
           for(i in players){$(players[i]).TVSet().handleMouseMove(event.pageX, event.pageY);}
         }).mouseup(function(event) {
           for(i in players){$(players[i]).TVSet().handleMouseUp(event.pageX, event.pageY);}
         });
-        
         
         $(window)
           .bind('resize',onLayout)
@@ -257,35 +329,14 @@
         
         onLayout();      
         
-        console.log('OpenTok: {{opentok_session_id}} -- {{opentok_token}}');
-        // var opentok_session = TB.initSession("{{opentok_session_id}}");  
-        // opentok_session.connect(1127, "devtoken");           
-        // opentok_session.addEventListener("sessionConnected", sessionConnectedHandler);
-        // opentok_session.addEventListener("streamCreated", streamCreatedHandler);
-        // function sessionConnectedHandler (event) {
-        //      subscribeToStreams(event.streams);
-        //      session.publish();
-        // }  
-
-        function subscribeToStreams(streams) {
-            for (i = 0; i < streams.length; i++) {
-                var stream = streams[i];
-                if (stream.connection.connectionId != session.connection.connectionId) {
-                    session.subscribe(stream);
-                }
-            }
-        }
-        
-        function streamCreatedHandler(event) {
-            subscribeToStreams(event.streams);
-        }
-        
         channel = new goog.appengine.Channel('{{channel_token}}');
         socket = channel.open();
         socket.onopen = onChannelOpened;
         socket.onmessage = onChannelMessage;
         socket.onerror = onChannelError;
         socket.onclose = onChannelClose;
+        
+        setupOpenTok();
         
       });
     </script>

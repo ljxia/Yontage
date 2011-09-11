@@ -108,6 +108,12 @@ span.query-box input[type=search]{
   padding:6px;
 }
 
+#broadcasters{
+  position:fixed;
+  top:20px;
+  right:20px;
+}
+
 input::-webkit-input-placeholder {
     color:    #AAA;
 }
