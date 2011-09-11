@@ -46,7 +46,9 @@ body{
 .tv.tv3{width:236px;height:408px;}
 .tv.tv4{width:320px;height:328px;margin-top:-82px;}
 .tv.tv5{width:225px;height:177px;} 
-.tv.tv6{width:395px;height:418px;} 
+.tv.tv6{width:395px;height:418px;}    
+.tv.tv7{width:312px;height:376px;margin-top:-115px;}     
+.tv.tv8{width:430px;height:293px;} 
 
 .tv1 .chrome{background:url(/images/old_tv_01.png) no-repeat;}
 .tv2 .chrome{background:url(/images/old_tv_02.png) no-repeat;}
@@ -64,7 +66,9 @@ body{
 .tv3 .player{margin-left:47px;margin-top:50px;}
 .tv4 .player{margin-left:14px;margin-top:113px;}
 .tv5 .player{margin-left:12px;margin-top:15px;}
-.tv6 .player{margin-left:53px;margin-top:57px;}
+.tv6 .player{margin-left:53px;margin-top:57px;} 
+.tv7 .player{margin-left:41px;margin-top:141px;}  
+.tv8 .player{margin-left:34px;margin-top:31px;}  
 
 span.query-box{
   display:inline-block;
