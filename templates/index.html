@@ -2,26 +2,48 @@
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <title>Yo!</title>
-    <link rel="stylesheet" href="/stylesheets/style.css" type="text/css" media="screen" title="master" charset="utf-8" />
+    <link rel="stylesheet" href="/stylesheets/style.css" type="text/css" media="screen" title="master" charset="utf-8" />      
+    <link rel="stylesheet" type="text/css" href="/scripts/fancybox/jquery.fancybox-1.3.4.css" media="screen" />
   </head>
   <body>
     <div id="tvs"></div>
     <div id="broadcasters"></div>
     <div id="controls">
-      <span class="broadcast-me">+</span>
+      <span class="help-me top-tag"><a id="about-me" href="#about">?</a></span> 
+      <span class="broadcast-me top-tag"><a href="#">+</a></span>
       
       <span class="query-box hidden">
         <input type="search" id="video-search" placeholder="Search Video Here..." /><br/>
         <span id="message"></span>
-      </span>
-      
+      </span>     
+    </div>        
+             
+    <div style="display: none;">
+      <div id="about">
+          <h3>About this hack</h3>
+          <ul>
+            <li><em>Yontage</em> is a mashup created within 24 hours during <a href="http://hackday.tv" target="_blank">Video Hack Day NYC 2011.</a></li> 
+            <li><em>Yontage</em> aims to maximize the joy of procrastination through an effortless video searching experience.</li>              
+            <li>Start by typing in any topic that interests you to start a video search, then scroll down for endless fun!</li> 
+            <li>It'd be pretty obvious that the loudest TV is the one closest to the mouse cursor.</li>
+            <li>Share the url with friends and they can watch and search for more stuff along with you. Just one thing to remember, they do see what you search, so be advised.</li>
+            <li>Last but not least, be sure to click on the little plus sign on the top right so your friends can see your face in a TV set.</li>       
+            <li></li> 
+            <li><em>Yontage</em> is brought to you by <a href="http://leejayxia.com" target="_blank">@liangjiexia</a></li>
+            <li>API courtesy of Youtube and OpenTok</li>
+          </ul>  
+      </div>     
     </div>
     
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.3/jquery.min.js"></script>
     <script src="http://staging.tokbox.com/v0.91/js/TB.min.js" ></script>
     
     <script src="/scripts/app.js" type="text/javascript" charset="utf-8"></script>
-    <script src="/scripts/tv.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/scripts/tv.js" type="text/javascript" charset="utf-8"></script>  
+    
+    <script type="text/javascript" src="/scripts/fancybox/jquery.mousewheel-3.0.4.pack.js"></script>
+  	<script type="text/javascript" src="/scripts/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+  	
     
     
     <script type="text/javascript" src="/_ah/channel/jsapi"></script>
@@ -239,7 +261,7 @@
         var frame = $('<div><div id="player_' + id + '"></div></div>');
         frame.addClass("").css({
           'position':'fixed',
-          'top':0,
+          'top':100,
           'right':right_range
         }).appendTo('#broadcasters');
         
@@ -302,7 +324,7 @@
           // 'width':400,
           // 'height':300
           'position':'fixed',
-          'top':0,
+          'top':100,
           'right':right_range + 2
         }).data('stream-id', stream.streamId).appendTo('#broadcasters');
         
@@ -361,7 +383,15 @@
         socket.onerror = onChannelError;
         socket.onclose = onChannelClose;
         
-        setupOpenTok();
+        setupOpenTok();  
+        
+        $("#about-me").fancybox({
+  				'titlePosition'		: 'none',
+  				'transitionIn'		: 'elastic',
+  				'transitionOut'		: 'none'
+  			}); 
+  			
+  			$("#about-me").click();
         
       });
     </script>

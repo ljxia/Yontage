@@ -83,20 +83,26 @@ body{
 
 span.query-box{
   display:inline-block;
-  padding:20px;
+  padding:10px;     
+  background:#D7D7D7;  
+  border-radius:8px; 
+  box-shadow:inset 0px 2px 4px #777;   
+  height:27px;
 }
 
 span.query-box input[type=search]{
-  font-size:28px;
+  font-size:24px;
   color:#555;
   text-shadow:-1px -1px 1px #DDD;
-  font-weight:bold;
+/*  font-weight:bold;*/
   background:#D7D7D7;
-  padding:8px 14px;
-  border:1px solid #444;
-  border-radius:10px;
-  width:500px;
-  box-shadow:inset 0px 2px 4px #777;
+  padding:0px;
+/*  border:1px solid #444;*/
+  border:none;
+  
+  width:500px;    
+  display:inline-block;
+  border-radius:8px;
   -webkit-appearance:textfield;
 }
 
@@ -110,7 +116,7 @@ span.query-box input[type=search]{
 
 #broadcasters{
   position:fixed;
-  top:20px;
+  top:100px;
   right:20px;
 }
 
@@ -121,22 +127,78 @@ input:-moz-placeholder {
     color:    #AAA;
 }
 
-
-.broadcast-me{
+.top-tag{
   position:fixed;
-  top:0;
-  right:60px;
-  display:block;
-  font-size:40px;
-  color:#999;
-  padding:0 20px;
-  background:rgba(255,255,255,0.1);
-/*  border:1px solid #3F3F3F;*/
-  border-radius:0 0 10px 10px;
-  cursor:pointer;
+  font-weight:bold;
+  top:-4px;
+  
+  display:inline-block;   
+    padding:0 20px;
+    background:rgba(255,255,255,0.1);
+  /*  border:1px solid #3F3F3F;*/
+    border-radius:0 0 10px 10px;
+    cursor:pointer;      
+    vertical-align:middle;  
+    
+    width:28px;
+    height:50px;
+    text-align:center;      
+    line-height:50px;
+}
+          
+.top-tag a{
+    font-family:"Helvetica","Arial",sans-serif;
+
+    font-size:40px;
+    color:#999;     
+    text-shadow:-1px -1px 1px #333;
+    text-decoration:none;
 }
 
-.broadcast-me:hover{
+.top-tag:hover{  
+  top:0;
   color:#BBB;
   background:rgba(255,255,255,0.15);
+}
+
+.broadcast-me{  
+   right:138px; 
+}  
+.help-me{  
+   right:60px;   
+   font-size:38px;
+}
+     
+
+
+#about{
+  width:600px;
+  padding:20px;
+  background:#CCC;               
+  color:#555;
+  font-family:"Helvetica","Arial",sans-serif; 
+} 
+
+#about a{
+  color:#333;
+  text-decoration:underline;
+}    
+
+#about em {
+  font-family:"Georgia", serif; 
+  font-size:18px;
+}
+
+#about h3{
+  font-size:26px;
+  color:333;   
+  margin-bottom:8px;
+} 
+
+#about ul li{
+  margin:0;
+  padding:0;
+  list-style:none;
+  font-size:18px;   
+  margin:8px 0 16px 0;
 }
